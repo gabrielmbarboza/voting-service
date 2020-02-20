@@ -26,6 +26,10 @@ const EventSchema = new Schema({
   },
   endAt: {
     type: Date,
+  },
+  quiz: {
+    type: Schema.Types.ObjectId,
+    ref: 'quiz',
   }
 });
 
