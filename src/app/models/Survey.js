@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-const QuizSchema = new Schema({
-  title: {
+const SurveySchema = new Schema({
+  question: {
     type: String,
     required: true,
   },
@@ -14,4 +14,4 @@ const QuizSchema = new Schema({
   }],
 });
 
-export default model('Quiz', QuizSchema);
+export default model('Survey', SurveySchema);

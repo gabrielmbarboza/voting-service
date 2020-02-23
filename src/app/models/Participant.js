@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const VotingSchema = new Schema({
+const ParticipantSchema = new Schema({
   email: {
     type: String,
   },
@@ -17,4 +17,4 @@ const VotingSchema = new Schema({
   },
 });
 
-export default model('Voting', VoteSchema);
+export default model('Participant', ParticipantSchema);

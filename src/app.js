@@ -17,6 +17,7 @@ class App {
     mongoose.connect(databaseConfig.uri, {
       useCreateIndex: true,
       useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
   }
 
