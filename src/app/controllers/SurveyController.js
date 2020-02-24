@@ -2,14 +2,14 @@ import Survey from '../models/Survey';
 
 class SurveyController {
   async index(req, res) {
-    const surveys = await survey.find();
+    const surveys = await Survey.find();
 
     return res.json(surveys);
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const survey = await survey.findById(id);
+    const survey = await Survey.findById(id);
 
     return res.json(survey);
   }
@@ -17,7 +17,7 @@ class SurveyController {
   async store(req, res) {
     const { body } = req;
 
-    const survey = survey.create(body);
+    const survey = Survey.create(body);
 
     return res.json(survey);
   }
@@ -26,7 +26,7 @@ class SurveyController {
     const { id } = req.params;
     const { body } = req;
 
-    const survey = survey.findByIdAndUpdate(id, body, {
+    const survey = Survey.findByIdAndUpdate(id, body, {
       new: true,
     });
 
@@ -36,7 +36,7 @@ class SurveyController {
   async destroy(req, res) {
     const { id } = req.params;
 
-    await survey.findOneAndDelete(id);
+    await Survey.findOneAndDelete(id);
 
     return res.send();
   }

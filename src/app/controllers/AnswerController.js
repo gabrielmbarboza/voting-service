@@ -28,6 +28,9 @@ class AnswerController {
 
     const answer = answer.findByIdAndUpdate(id, body, {
       new: true,
+      $inc: {
+        votes: 1,
+      },
     });
 
     return res.json(answer);

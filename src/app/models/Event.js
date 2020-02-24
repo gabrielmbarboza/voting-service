@@ -27,10 +27,10 @@ const EventSchema = new Schema({
   endAt: {
     type: Date,
   },
-  quiz: {
+  surveys: [{
     type: Schema.Types.ObjectId,
-    ref: 'quiz',
-  }
+    ref: 'Survey',
+  }],
 });
 
 export default model('Event', EventSchema);
