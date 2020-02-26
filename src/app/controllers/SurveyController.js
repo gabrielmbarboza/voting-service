@@ -9,7 +9,7 @@ class SurveyController {
 
   async show(req, res) {
     const { id } = req.params;
-    const survey = await Survey.findById(id);
+    const survey = await Survey.findById(id).populate('answer');
 
     return res.json(survey);
   }

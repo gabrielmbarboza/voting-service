@@ -9,7 +9,11 @@ const AnswerSchema = new Schema({
   votes: {
     type: Number,
     default: 0,
-  }
+  },
+  survey: {
+    type: Schema.Types.ObjectId,
+    ref: 'survey',
+  },
 });
 
 export default model('Answer', AnswerSchema);
