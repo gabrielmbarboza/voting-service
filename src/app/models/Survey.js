@@ -10,7 +10,7 @@ const SurveySchema = new Schema({
   },
   answers: [{
     type: Schema.Types.ObjectId,
-    ref: 'answer',
+    ref: 'Answer',
   }],
 });
 

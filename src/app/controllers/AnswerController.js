@@ -1,4 +1,5 @@
 import Answer from '../models/Answer';
+import Survey from '../models/Survey';
 import Participant from '../models/Participant';
 
 class AnswerController {
@@ -10,17 +11,22 @@ class AnswerController {
 
   async show(req, res) {
     const { id } = req.params;
-    const answer = await Answer.findById(id);
+    const answer = await Answer.findById(id).populate('survey');
 
     return res.json(answer);
   }
 
   async store(req, res) {
-    const { body } = req;
+    const { label, survey_id } = req.body;
 
-    const answer = Answer.create(body);
+    const survey = Survey.findById(survey_id);
+    const answer = new Answer({label: label});
+    answer.save( (error) => {
+      //survey.answers.push(answer);
+      survey.save((error)=>{});
+    });
 
-    return res.json(answer);
+    return res.json({});
   }
 
   async update(req, res) {

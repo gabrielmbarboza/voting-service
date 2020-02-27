@@ -15,11 +15,22 @@ class SurveyController {
   }
 
   async store(req, res) {
-    const { body } = req;
+    try {
+      const { question, description, answers } = req.body;
 
-    const survey = Survey.create(body);
+      const survey = await Survey.create({ question: question, description: description });
+      answers.map(answer => {
+        const surveyAnswer = new answer({...answer, survey: survey._id });
+        
+        surveyAnswer.save().then(answer => survey.answers.push(answer));
+      });
 
-    return res.json(survey);
+      await survey.save();
+
+      return res.send({ survey });
+    } catch (error) {
+      return res.status(400).send({ error: 'Error creating a new Survey' });
+    }
   }
 
   async update(req, res) {
