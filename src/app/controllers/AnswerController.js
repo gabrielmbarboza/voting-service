@@ -21,12 +21,9 @@ class AnswerController {
 
     const survey = Survey.findById(survey_id);
     const answer = new Answer({label: label});
-    answer.save( (error) => {
-      //survey.answers.push(answer);
-      survey.save((error)=>{});
-    });
+    await answer.save();
 
-    return res.json({});
+    return res.send({ answer });
   }
 
   async update(req, res) {
@@ -37,7 +34,7 @@ class AnswerController {
       new: true,
     });
 
-    return res.json(answer);
+    return res.send({ answer });
   }
 
   async addVote(req, res) {

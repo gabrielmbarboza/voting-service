@@ -4,33 +4,33 @@ class EventController {
   async index(req, res) {
     const events = await Event.find();
 
-    return res.json(events);
+    return res.send({ events });
   }
 
   async show(req, res) {
     const { id } = req.params;
-    const event = await Event.findById(id);
+    const event = await Event.findById(id).populate('surveys', 'question');
 
-    return res.json(event);
+    return res.send({ event });
   }
 
   async store(req, res) {
     const { body } = req;
 
-    const event = Event.create(body);
+    const event = await Event.create(body);
 
-    return res.json(event);
+    return res.send({ event });
   }
 
   async update(req, res) {
     const { id } = req.params;
     const { body } = req;
 
-    const event = Event.findByIdAndUpdate(id, body, {
+    const event = await Event.findByIdAndUpdate(id, body, {
       new: true,
     });
 
-    return res.json(event);
+    return res.send({ event });
   }
 
   async destroy(req, res) {
@@ -38,7 +38,7 @@ class EventController {
 
     await Event.findOneAndDelete(id);
 
-    return res.send();
+    return res.status(204);
   }
 }
 

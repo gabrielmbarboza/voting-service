@@ -2,9 +2,9 @@ import Participant from '../models/Participant';
 
 class ParticipantController {
   async index(req, res) {
-    const participants = await Participant.find();
+    const participants = await Participant.find().populate('answer');
 
-    return res.json(participants);
+    return res.send({ participants });
   }
 }
 

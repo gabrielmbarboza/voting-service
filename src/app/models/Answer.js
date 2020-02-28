@@ -14,6 +14,10 @@ const AnswerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Survey'
   },
+  participants: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Participant',
+  }],
 });
 
 export default model('Answer', AnswerSchema);

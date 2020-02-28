@@ -8,6 +8,10 @@ const SurveySchema = new Schema({
   description: {
     type: String,
   },
+  event: {
+    type: Schema.Types.ObjectId,
+    ref: 'Event',
+  },
   answers: [{
     type: Schema.Types.ObjectId,
     ref: 'Answer',

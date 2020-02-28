@@ -1,35 +1,43 @@
 import Survey from '../models/Survey';
+import Event from '../models/Event';
+import Answer from '../models/Answer';
 
 class SurveyController {
   async index(req, res) {
     const surveys = await Survey.find();
 
-    return res.json(surveys);
+    return res.send({ surveys });
   }
 
   async show(req, res) {
     const { id } = req.params;
     const survey = await Survey.findById(id).populate('answer');
 
-    return res.json(survey);
+    return res.send({ survey });
   }
 
   async store(req, res) {
     try {
-      const { question, description, answers } = req.body;
+      const { question, description, answers, event_id } = req.body;
+      
+      const event = await Event.findById(event_id);
 
-      const survey = await Survey.create({ question: question, description: description });
+      const survey = await Survey.create({ question: question, description: description, event: event._id});
+      
       answers.map(answer => {
-        const surveyAnswer = new answer({...answer, survey: survey._id });
-        
+        const surveyAnswer = new Answer({...answer, survey: survey._id });     
         surveyAnswer.save().then(answer => survey.answers.push(answer));
       });
 
-      await survey.save();
+      await survey.save().then((survey) => {
+        event.surveys.push(survey);
+      });
+
+      await event.save();
 
       return res.send({ survey });
     } catch (error) {
-      return res.status(400).send({ error: 'Error creating a new Survey' });
+      return res.status(400).send({ error: 'Something terrible happened here!' });
     }
   }
 
@@ -41,7 +49,7 @@ class SurveyController {
       new: true,
     });
 
-    return res.json(survey);
+    return res.send({ survey });
   }
 
   async destroy(req, res) {
@@ -49,7 +57,7 @@ class SurveyController {
 
     await Survey.findOneAndDelete(id);
 
-    return res.send();
+    return res.status(204);
   }
 }
 

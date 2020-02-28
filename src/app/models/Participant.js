@@ -13,7 +13,7 @@ const ParticipantSchema = new Schema({
   },
   answer: {
     type: Schema.Types.ObjectId,
-    ref: 'answer',
+    ref: 'Answer',
   },
 });
 
