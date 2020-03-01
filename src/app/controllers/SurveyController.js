@@ -24,14 +24,18 @@ class SurveyController {
 
       const survey = await Survey.create({ question: question, description: description, event: event._id});
       
-      answers.map(answer => {
-        const surveyAnswer = new Answer({...answer, survey: survey._id });     
-        surveyAnswer.save().then(answer => survey.answers.push(answer));
-      });
+      await Promise.all(answers.map(async answer => {
+          const surveyAnswer = new Answer({...answer, survey: survey._id });     
+          
+          await surveyAnswer.save();
+          
+          survey.answers.push(surveyAnswer);
+        })
+      );
 
-      await survey.save().then((survey) => {
-        event.surveys.push(survey);
-      });
+      await survey.save();
+      
+      event.surveys.push(survey);
 
       await event.save();
 

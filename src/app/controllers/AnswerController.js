@@ -40,16 +40,19 @@ class AnswerController {
   async addVote(req, res) {
     const { id } = req.params;
     const { email } = req.body;
-    const ip = req.connection.remoteAddress;
+    const ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
     Answer.findById(id, (error, answer) => {
-      Participant.create({
+      const participant = Participant.create({
         email: email,
         ip: ip,
         answer: answer._id,
       });
 
-      answer.updateOne( {
+      answer.participants.push(participant);
+      answer.save();
+
+      answer.updateOne({
         $inc: {
           votes: 1,
         }, 
